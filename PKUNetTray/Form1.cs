@@ -16,5 +16,10 @@ namespace PKUNetTray
         {
             InitializeComponent();
         }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Connect");
+        }
     }
 }
