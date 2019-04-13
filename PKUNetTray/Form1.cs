@@ -60,7 +60,7 @@ namespace PKUNetTray
             {
                 RegistryKey R_autorun = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
                 var path_in_table=(string)R_autorun.GetValue(appName);
-                if (path_in_table == Application.ExecutablePath)
+                if (path_in_table == Application.ExecutablePath.Replace("/","\\"))
                 {
                     startAtLoginToolStripMenuItem.Checked = true;
                     R_autorun.Close();
@@ -91,7 +91,7 @@ namespace PKUNetTray
                 RegistryKey R_autorun = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
                 if (isAuto)
                 {
-                    R_autorun.SetValue(appName, Application.ExecutablePath);
+                    R_autorun.SetValue(appName, Application.ExecutablePath.Replace("/","\\"));
                 }
                 else
                     R_autorun.DeleteValue(appName, false);
