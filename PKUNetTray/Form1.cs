@@ -11,27 +11,112 @@ using System.Net;
 using ConfigParser;
 using System.IO;
 using NLog;
+using Microsoft.Win32;
 
 namespace PKUNetTray
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Config File Reader(Config is .nettray\\config.ini)
+        /// </summary>
         IniReader cfg;
+        /// <summary>
+        /// Instance of Logger whose logfile is .nettray\\.log
+        /// </summary>
         Logger logger;
+        /// <summary>
+        /// Name stored in registry table.
+        /// </summary>
+        string appName = "PKUNetTray";
 
         public Form1()
         {
             InitializeComponent();
+            logger = LogManager.GetCurrentClassLogger();
+            logger.Info("Application Started!");
             if (File.Exists(".nettray\\config.ini"))
             {
                 cfg = new IniReader(".nettray\\config.ini");
                 int.TryParse(cfg.Read("ipwg", "timer"), out int interval);
                 timer1.Interval = interval;
+                int.TryParse(cfg.Read("ipwg", "keeping"), out int isKeeping);
+                if (isKeeping == 1)
+                {
+                    keepConnectedToolStripMenuItem.Checked = true;
+                    timer1.Start();
+                }
             }
-            logger = LogManager.GetCurrentClassLogger();
-            logger.Info("Application Started!");
+            checkStartatLogin();
         }
 
+        /// <summary>
+        /// Check in Registry that whether this app is registered for start at login.
+        /// </summary>
+        /// <returns></returns>
+        public bool checkStartatLogin()
+        {
+            try
+            {
+                RegistryKey R_autorun = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                var path_in_table=(string)R_autorun.GetValue(appName);
+                if (path_in_table == Application.ExecutablePath)
+                {
+                    startAtLoginToolStripMenuItem.Checked = true;
+                    R_autorun.Close();
+                    return true;
+                }
+                startAtLoginToolStripMenuItem.Checked = false;
+                R_autorun.Close();
+                return false;
+            }
+            catch(Exception e)
+            {
+                logger.Warn(e.ToString());
+                startAtLoginToolStripMenuItem.Checked = false;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Change the state whether this app starts at login in registry.
+        /// </summary>
+        /// <param name="isAuto"></param>
+        /// <returns></returns>
+        public bool setStartatLogin(bool isAuto)
+        {
+            logger.Info("Set Start at Login as " + isAuto.ToString());
+            try
+            {
+                RegistryKey R_autorun = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                if (isAuto)
+                {
+                    R_autorun.SetValue(appName, Application.ExecutablePath);
+                }
+                else
+                    R_autorun.DeleteValue(appName, false);
+                R_autorun.Close();
+                return true;
+            }
+            catch(Exception e)
+            {
+                logger.Warn(e.ToString());
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Connect to its.pku.edu.cn to gain Extra-net access.
+        /// </summary>
+        /// <param name="operation">
+        /// 0 for Connect; 1 for Disconnect; 2 for Disconnect All.
+        /// </param>
+        /// <param name="range">
+        /// 1 for global, 0 for local.(This currently is useless since global time is infinite now.
+        /// </param>
+        /// <returns>
+        /// Stores returned connecting status from web.
+        /// </returns>
         public Dictionary<string,string> ConnectITS(int operation=0, int range = 1)
         {
             WebClient pkuNet=new WebClient();
@@ -95,49 +180,61 @@ namespace PKUNetTray
             return info_dict;
         }
 
+        /// <summary>
+        /// Checking is this computer connected to Extra-net or inner-net.
+        /// </summary>
+        /// <returns>2 for connected to both; 1 for not connected to extra-net; 0 for not in campus; -1 for not connected to both.</returns>
         public int checkConnection()
         {
-            WebClient pkuNet=new WebClient();
-            pkuNet.Headers[HttpRequestHeader.ContentType]= "application/x-www-form-urlencoded";
-            pkuNet.Encoding = Encoding.GetEncoding("gb2312");
-            string urlOutside = "http://www.baidu.com";
-            string urlInside = "https://its.pku.edu.cn";
+            string urlExtra = "http://www.baidu.com";
+            string urlInner = "https://its.pku.edu.cn";
+            bool isConnectedExtra = false;
+            bool isConnectedInner = false;
             try
             {
-                var tmpBytesOutside = pkuNet.DownloadData(urlOutside);
-                var tmpStrOutside = Encoding.GetEncoding("utf-8").GetString(tmpBytesOutside);
-                if (tmpStrOutside.IndexOf("百度") != -1)
-                    return 1;
+                WebClient pkuNet=new WebClient();
+                pkuNet.Headers[HttpRequestHeader.ContentType]= "application/x-www-form-urlencoded";
+                var tmpBytesExtra = pkuNet.DownloadData(urlExtra);
+                var tmpStrExtra = Encoding.GetEncoding("utf-8").GetString(tmpBytesExtra);
+                if (tmpStrExtra.IndexOf("百度") != -1)
+                    isConnectedExtra = true;
                 else
-                {
-                    var tmpBytesInside = pkuNet.DownloadData(urlInside);
-                    var tmpStrInside = Encoding.GetEncoding("utf-8").GetString(tmpBytesInside);
-                    if (tmpStrInside.IndexOf("北京大学") != -1)
-                        return 0;
-                    else
-                        return -1;
-                }
+                    isConnectedExtra = false;
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.ToString());
                 logger.Warn(e.ToString() + "Cannot Connect to baidu.com");
-                try
-                {
-                    var tmpBytesInside = pkuNet.DownloadData(urlInside);
-                    var tmpStrInside = Encoding.GetEncoding("utf-8").GetString(tmpBytesInside);
-                    if (tmpStrInside.IndexOf("北京大学") != -1)
-                        return 0;
-                    else
-                        return -1;
-                }
-                catch(Exception ee)
-                {
-                    Console.WriteLine(ee.ToString());
-                    logger.Warn(e.ToString() + "Cannot Connect to its.pku.edu.cn");
-                    return -1;
-                }
+                isConnectedExtra = false;
             }
+            try
+            {
+                WebClient pkuNet=new WebClient();
+                pkuNet.Headers[HttpRequestHeader.ContentType]= "application/x-www-form-urlencoded";
+                var tmpBytesInner = pkuNet.DownloadData(urlInner);
+                var tmpStrInner = Encoding.GetEncoding("utf-8").GetString(tmpBytesInner);
+                if (tmpStrInner.IndexOf("北京大学") != -1)
+                {
+                    if (tmpStrInner.IndexOf("校外") != -1)
+                        isConnectedInner = false;
+                    else
+                        isConnectedInner = true;
+                }
+                else
+                    isConnectedInner = false;
+            }
+            catch(Exception e)
+            {
+                logger.Warn(e.ToString() + "Cannot Connect to its.pku.edu.cn");
+                isConnectedInner = false;
+            }
+            if (isConnectedExtra && isConnectedInner)
+                return 2;
+            else if (isConnectedInner)
+                return 1;
+            else if (isConnectedExtra)
+                return 0;
+            else
+                return -1;
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -188,22 +285,36 @@ namespace PKUNetTray
         private void timer1_Tick(object sender, EventArgs e)
         {
             var status = checkConnection();
-            if (status == 1)
+            switch (status)
             {
-                logger.Info("IPWG Connected.");
+                case 2:
+                    logger.Info("IPWG Connected.");
+                    break;
+                case 1:
+                    logger.Info("IPWG Connection lost.Reconnecting...");
+                    ConnectITS(0, 1);
+                    break;
+                case 0:
+                    notifyIcon1.ShowBalloonTip(1000, "PKUNet", "Not in campus!", ToolTipIcon.Info);
+                    keepConnectedToolStripMenuItem.Checked = false;
+                    timer1.Stop();
+                    logger.Info("Not in campus! Keep Connected Canceled.");
+                    break;
+                case -1:
+                    notifyIcon1.ShowBalloonTip(1000, "PKUNet", "Not connected to Internet and not in campus!", ToolTipIcon.Warning);
+                    keepConnectedToolStripMenuItem.Checked = false;
+                    timer1.Stop();
+                    logger.Warn("Not connected to Internet and not in campus! Keep Connected Canceled.");
+                    break;
+                default:
+                    break;
             }
-            else if (status == 0)
-            {
-                logger.Info("IPWG Connection lost.Reconnecting...");
-                ConnectITS(0, 1);
-            }
-            else
-            {
-                notifyIcon1.ShowBalloonTip(1000, "PKUNet", "Not in campus!", ToolTipIcon.Info);
-                keepConnectedToolStripMenuItem.Checked = false;
-                timer1.Stop();
-                logger.Warn("Not in campus! Keep Connected Canceled.");
-            }
+        }
+
+        private void startAtLoginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setStartatLogin(!startAtLoginToolStripMenuItem.Checked);
+            checkStartatLogin();
         }
     }
 }
