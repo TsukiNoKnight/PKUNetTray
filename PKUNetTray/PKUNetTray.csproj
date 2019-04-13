@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>nettray.ico</ApplicationIcon>
+    <ApplicationIcon>pkunettray_IrA_1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="nettray.ico" />
+    <Content Include="pkunettray_IrA_1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
