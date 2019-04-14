@@ -19,7 +19,7 @@ namespace ConfigParser
         /// <summary>
         /// The text to return if the key-value pair does not exists.
         /// </summary>
-        string Notext;
+        public string Notext { get; set; }
 
         /// <summary>
         /// Initialize the object using ini file path.(Can be both relative and relative)

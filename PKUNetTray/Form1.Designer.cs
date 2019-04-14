@@ -41,7 +41,18 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.saveConfigBtn = new System.Windows.Forms.Button();
+            this.uidTextBox = new System.Windows.Forms.TextBox();
+            this.passwordTextBox = new System.Windows.Forms.TextBox();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -59,62 +70,66 @@
             this.disconnectAllToolStripMenuItem,
             this.keepConnectedToolStripMenuItem,
             this.toolStripSeparator1,
+            this.configurationToolStripMenuItem,
+            this.toolStripSeparator3,
             this.startAtLoginToolStripMenuItem,
             this.toolStripSeparator2,
-            this.exitToolStripMenuItem});
+            this.exitToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.statusToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 148);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 226);
             // 
             // connectToolStripMenuItem
             // 
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.connectToolStripMenuItem.Text = "Connect";
-            this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+            this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectITSTollStripMenuItem_Click);
             // 
             // disConnectToolStripMenuItem
             // 
             this.disConnectToolStripMenuItem.Name = "disConnectToolStripMenuItem";
-            this.disConnectToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.disConnectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.disConnectToolStripMenuItem.Text = "Disconnect";
-            this.disConnectToolStripMenuItem.Click += new System.EventHandler(this.disConnectToolStripMenuItem_Click);
+            this.disConnectToolStripMenuItem.Click += new System.EventHandler(this.connectITSTollStripMenuItem_Click);
             // 
             // disconnectAllToolStripMenuItem
             // 
             this.disconnectAllToolStripMenuItem.Name = "disconnectAllToolStripMenuItem";
-            this.disconnectAllToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.disconnectAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.disconnectAllToolStripMenuItem.Text = "DisconnectAll";
-            this.disconnectAllToolStripMenuItem.Click += new System.EventHandler(this.disconnectAllToolStripMenuItem_Click);
+            this.disconnectAllToolStripMenuItem.Click += new System.EventHandler(this.connectITSTollStripMenuItem_Click);
             // 
             // keepConnectedToolStripMenuItem
             // 
             this.keepConnectedToolStripMenuItem.CheckOnClick = true;
             this.keepConnectedToolStripMenuItem.Name = "keepConnectedToolStripMenuItem";
-            this.keepConnectedToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.keepConnectedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.keepConnectedToolStripMenuItem.Text = "Keep Connected";
             this.keepConnectedToolStripMenuItem.Click += new System.EventHandler(this.keepConnectedToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // startAtLoginToolStripMenuItem
             // 
             this.startAtLoginToolStripMenuItem.Name = "startAtLoginToolStripMenuItem";
-            this.startAtLoginToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.startAtLoginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startAtLoginToolStripMenuItem.Text = "Start at Login";
             this.startAtLoginToolStripMenuItem.Click += new System.EventHandler(this.startAtLoginToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -122,11 +137,102 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // configurationToolStripMenuItem
+            // 
+            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configurationToolStripMenuItem.Text = "Configuration";
+            this.configurationToolStripMenuItem.Click += new System.EventHandler(this.configurationToolStripMenuItem_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.saveConfigBtn, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.uidTextBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.passwordTextBox, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(13, 13);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(255, 89);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(52, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(23, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "UID";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(37, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "PASSWORD";
+            // 
+            // saveConfigBtn
+            // 
+            this.saveConfigBtn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.saveConfigBtn.Location = new System.Drawing.Point(153, 62);
+            this.saveConfigBtn.Name = "saveConfigBtn";
+            this.saveConfigBtn.Size = new System.Drawing.Size(75, 23);
+            this.saveConfigBtn.TabIndex = 2;
+            this.saveConfigBtn.Text = "Save";
+            this.saveConfigBtn.UseVisualStyleBackColor = true;
+            this.saveConfigBtn.Click += new System.EventHandler(this.saveConfigBtn_Click);
+            // 
+            // uidTextBox
+            // 
+            this.uidTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.uidTextBox.Location = new System.Drawing.Point(141, 4);
+            this.uidTextBox.Name = "uidTextBox";
+            this.uidTextBox.Size = new System.Drawing.Size(100, 21);
+            this.uidTextBox.TabIndex = 3;
+            // 
+            // passwordTextBox
+            // 
+            this.passwordTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.passwordTextBox.Location = new System.Drawing.Point(141, 33);
+            this.passwordTextBox.Name = "passwordTextBox";
+            this.passwordTextBox.PasswordChar = '*';
+            this.passwordTextBox.Size = new System.Drawing.Size(100, 21);
+            this.passwordTextBox.TabIndex = 4;
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            // 
+            // statusToolStripMenuItem
+            // 
+            this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
+            this.statusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.statusToolStripMenuItem.Text = "Status";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(280, 231);
+            this.ClientSize = new System.Drawing.Size(280, 111);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.ShowInTaskbar = false;
@@ -135,6 +241,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -152,6 +260,16 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem startAtLoginToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button saveConfigBtn;
+        private System.Windows.Forms.TextBox uidTextBox;
+        private System.Windows.Forms.TextBox passwordTextBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem statusToolStripMenuItem;
     }
 }
 

@@ -35,19 +35,69 @@ namespace PKUNetTray
             InitializeComponent();
             logger = LogManager.GetCurrentClassLogger();
             logger.Info("Application Started!");
-            if (File.Exists(".nettray\\config.ini"))
+            if (!File.Exists(".nettray\\config.ini"))
             {
+                if (!Directory.Exists(".nettray"))
+                    Directory.CreateDirectory(".nettray");
+                (File.Create(".nettray\\config.ini")).Close();
                 cfg = new IniReader(".nettray\\config.ini");
-                int.TryParse(cfg.Read("ipwg", "timer"), out int interval);
-                timer1.Interval = interval;
-                int.TryParse(cfg.Read("ipwg", "keeping"), out int isKeeping);
-                if (isKeeping == 1)
-                {
-                    keepConnectedToolStripMenuItem.Checked = true;
-                    timer1.Start();
-                }
+                cfg.Write("ipwg", "timer", "10000");
+                cfg.Write("ipwg", "keeping", "0");
+            }
+            cfg = new IniReader(".nettray\\config.ini");
+            int.TryParse(cfg.Read("ipwg", "timer"), out int interval);
+            timer1.Interval = interval;
+            int.TryParse(cfg.Read("ipwg", "keeping"), out int isKeeping);
+            if (isKeeping == 1)
+            {
+                keepConnectedToolStripMenuItem.Checked = true;
+                timer1.Start();
             }
             checkStartatLogin();
+            checkConnection();
+        }
+
+        /// <summary>
+        /// Encode or decode base64 string.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="code">
+        /// "encode" or "decode"
+        /// </param>
+        /// <param name="encoding">
+        /// when input is null,it means "utf-8"
+        /// </param>
+        /// <returns></returns>
+        static public string base64Code(string input,string code,Encoding encoding)
+        {
+            if (encoding == null)
+                encoding = Encoding.GetEncoding("utf-8");
+            string result = "";
+            if (code == "encode")
+            {
+                var bytes = encoding.GetBytes(input);
+                try
+                {
+                    result = Convert.ToBase64String(bytes);
+                }
+                catch
+                {
+
+                }
+            }
+            else if (code == "decode")
+            {
+                var bytes = Convert.FromBase64String(input);
+                try
+                {
+                    result = encoding.GetString(bytes);
+                }
+                catch
+                {
+
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -142,9 +192,13 @@ namespace PKUNetTray
             string param = "";
             try
             {
+                var uid = cfg.Read("ipwg", "uid");
+                var password = base64Code(cfg.Read("ipwg", "password"),"decode",null);
+                if (uid == cfg.Notext || password == cfg.Notext)
+                    return null;
                 param=
-                    "uid=" + cfg.Read("ipwg", "uid") +
-                    "&password=" + cfg.Read("ipwg", "password") +
+                    "uid=" + uid +
+                    "&password=" + password +
                     "&range=" + range.ToString() +
                     "&operation=" + opStr +
                     "&timeout=1";
@@ -173,7 +227,7 @@ namespace PKUNetTray
             foreach (var item in htmlInfoArray)
                 if (item.IndexOf('=') >= 0 && (item.Length - item.IndexOf('=') - 1) >= 0)
                     info_dict.Add(item.Substring(0, item.IndexOf('=')), item.Substring(item.IndexOf('=') + 1, item.Length - item.IndexOf('=') - 1));
-            string log_info = "\t";
+            string log_info = "\t"+opStr;
             foreach (var item in info_dict)
                 log_info += "\r\n\t\t\t\t\t\t\t\t\t\t\t\t" + item.Key + "\t=" + item.Value;
             logger.Info(log_info);
@@ -228,28 +282,72 @@ namespace PKUNetTray
                 isConnectedInner = false;
             }
             if (isConnectedExtra && isConnectedInner)
+            {
+                statusToolStripMenuItem.Text = "Status:Connected";
+                statusToolStripMenuItem.BackColor = Color.FromName("lime");
                 return 2;
+            }
             else if (isConnectedInner)
+            {
+                statusToolStripMenuItem.Text = "Status:Not Connected";
+                statusToolStripMenuItem.BackColor = Color.FromName("Yellow");
                 return 1;
+            }
             else if (isConnectedExtra)
+            {
+                statusToolStripMenuItem.Text = "Status:Not in Campus";
+                statusToolStripMenuItem.BackColor = Color.FromName("Red");
                 return 0;
+            }
             else
+            {
+                statusToolStripMenuItem.Text = "Status:Isolated from world";
+                statusToolStripMenuItem.BackColor = Color.FromName("Red");
                 return -1;
+            }
         }
 
-        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void connectITSTollStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConnectITS(0, 1);
-        }
-
-        private void disConnectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ConnectITS(1, 1);
-        }
-
-        private void disconnectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ConnectITS(2, 1);
+            int connect_op = 0;
+            switch (((ToolStripMenuItem)sender).Text)
+            {
+                case "Connect":
+                    connect_op = 0;
+                    break;
+                case "Disconnect":
+                    connect_op = 1;
+                    break;
+                case "DisconnectAll":
+                    connect_op = 2;
+                    break;
+                default:
+                    connect_op = 0;
+                    break;
+            }
+            var info_dict = ConnectITS(connect_op,1);
+            if (info_dict == null)
+            {
+                notifyIcon1.ShowBalloonTip(1000, appName, "Please enter uid and password",ToolTipIcon.Error);
+                this.WindowState = FormWindowState.Normal;
+                return;
+            }
+            if (info_dict["SUCCESS"] == "NO")
+            {
+                if (connect_op==0 && info_dict["REASON"] == "当前连接数超过预定值")
+                {
+                    ConnectITS(2, 1);
+                    ConnectITS(0, 1);
+                }
+                else
+                {
+                    keepConnectedToolStripMenuItem.Checked = false;
+                    timer1.Stop();
+                    string showinfo = "连接失败\r\n"+info_dict["REASON"];
+                    notifyIcon1.ShowBalloonTip(1000, appName, showinfo,ToolTipIcon.Error);
+                }
+            }
+            checkConnection();
         }
 
         private void keepConnectedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -257,11 +355,13 @@ namespace PKUNetTray
             if (keepConnectedToolStripMenuItem.Checked)
             {
                 logger.Info("Keep Connection Started!");
+                cfg.Write("ipwg", "keeping", "1");
                 timer1.Start();
             }
             else
             {
                 logger.Info("Keep Connection Ended!");
+                cfg.Write("ipwg", "keeping", "0");
                 timer1.Stop();
             }
         }
@@ -315,6 +415,18 @@ namespace PKUNetTray
         {
             setStartatLogin(!startAtLoginToolStripMenuItem.Checked);
             checkStartatLogin();
+        }
+
+        private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void saveConfigBtn_Click(object sender, EventArgs e)
+        {
+            cfg.Write("ipwg", "uid", uidTextBox.Text);
+            cfg.Write("ipwg", "password", base64Code(passwordTextBox.Text,"encode",null));
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
