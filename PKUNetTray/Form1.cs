@@ -48,6 +48,11 @@ namespace PKUNetTray
             int.TryParse(cfg.Read("ipwg", "timer"), out int interval);
             timer1.Interval = interval;
             int.TryParse(cfg.Read("ipwg", "keeping"), out int isKeeping);
+            var uid = cfg.Read("ipwg", "uid");
+            var password = base64Code(cfg.Read("ipwg", "password"),"decode",null);
+            uidTextBox.Text = uid;
+            passwordTextBox.Text = password;
+
             if (isKeeping == 1)
             {
                 keepConnectedToolStripMenuItem.Checked = true;
@@ -329,6 +334,7 @@ namespace PKUNetTray
             if (info_dict == null)
             {
                 notifyIcon1.ShowBalloonTip(1000, appName, "Please enter uid and password",ToolTipIcon.Error);
+                this.Show();
                 this.WindowState = FormWindowState.Normal;
                 return;
             }
@@ -420,13 +426,16 @@ namespace PKUNetTray
         private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
+            this.Show();
         }
 
         private void saveConfigBtn_Click(object sender, EventArgs e)
         {
             cfg.Write("ipwg", "uid", uidTextBox.Text);
             cfg.Write("ipwg", "password", base64Code(passwordTextBox.Text,"encode",null));
-            this.WindowState = FormWindowState.Minimized;
+            this.WindowState = FormWindowState.Normal;
+            this.Hide();
         }
+
     }
 }

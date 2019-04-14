@@ -37,20 +37,20 @@
             this.disconnectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.keepConnectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.startAtLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.saveConfigBtn = new System.Windows.Forms.Button();
             this.uidTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -78,26 +78,26 @@
             this.toolStripSeparator4,
             this.statusToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 226);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 204);
             // 
             // connectToolStripMenuItem
             // 
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.connectToolStripMenuItem.Text = "Connect";
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectITSTollStripMenuItem_Click);
             // 
             // disConnectToolStripMenuItem
             // 
             this.disConnectToolStripMenuItem.Name = "disConnectToolStripMenuItem";
-            this.disConnectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.disConnectToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.disConnectToolStripMenuItem.Text = "Disconnect";
             this.disConnectToolStripMenuItem.Click += new System.EventHandler(this.connectITSTollStripMenuItem_Click);
             // 
             // disconnectAllToolStripMenuItem
             // 
             this.disconnectAllToolStripMenuItem.Name = "disconnectAllToolStripMenuItem";
-            this.disconnectAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.disconnectAllToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.disconnectAllToolStripMenuItem.Text = "DisconnectAll";
             this.disconnectAllToolStripMenuItem.Click += new System.EventHandler(this.connectITSTollStripMenuItem_Click);
             // 
@@ -105,49 +105,60 @@
             // 
             this.keepConnectedToolStripMenuItem.CheckOnClick = true;
             this.keepConnectedToolStripMenuItem.Name = "keepConnectedToolStripMenuItem";
-            this.keepConnectedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.keepConnectedToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.keepConnectedToolStripMenuItem.Text = "Keep Connected";
             this.keepConnectedToolStripMenuItem.Click += new System.EventHandler(this.keepConnectedToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+            // 
+            // configurationToolStripMenuItem
+            // 
+            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.configurationToolStripMenuItem.Text = "Configuration";
+            this.configurationToolStripMenuItem.Click += new System.EventHandler(this.configurationToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(169, 6);
             // 
             // startAtLoginToolStripMenuItem
             // 
             this.startAtLoginToolStripMenuItem.Name = "startAtLoginToolStripMenuItem";
-            this.startAtLoginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startAtLoginToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.startAtLoginToolStripMenuItem.Text = "Start at Login";
             this.startAtLoginToolStripMenuItem.Click += new System.EventHandler(this.startAtLoginToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
+            // 
+            // statusToolStripMenuItem
+            // 
+            this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
+            this.statusToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.statusToolStripMenuItem.Text = "Status";
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
-            // 
-            // configurationToolStripMenuItem
-            // 
-            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.configurationToolStripMenuItem.Text = "Configuration";
-            this.configurationToolStripMenuItem.Click += new System.EventHandler(this.configurationToolStripMenuItem_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -216,24 +227,16 @@
             this.passwordTextBox.Size = new System.Drawing.Size(100, 21);
             this.passwordTextBox.TabIndex = 4;
             // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
-            // 
-            // statusToolStripMenuItem
-            // 
-            this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
-            this.statusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.statusToolStripMenuItem.Text = "Status";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(280, 111);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.ShowInTaskbar = false;
             this.Text = "PKUNetTray";
